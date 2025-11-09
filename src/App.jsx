@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [companyName, setCompanyName] = useState("");
@@ -11,7 +13,7 @@ const App = () => {
   const [tyrepressure, setTyrepressure] = useState("");
   const [bodycondition, setBodycondition] = useState("");
   const [paintcondition, setPaintcondition] = useState("");
-  
+
   // errors
   const [emailError, setEmailError] = useState('')
   const [vehicleNumberError, setVehicleNumberError] = useState('')
@@ -33,10 +35,11 @@ const App = () => {
       bodycondition,
       paintcondition,
     };
-    if(emailError || vehicleNumberError || ownerNumberError){
-      alert("Please fix the errors before submitting the form.");
+    if (emailError || vehicleNumberError || ownerNumberError) {
+      toast.error("Please fix the errors before submitting the form.")
       return;
     }
+    toast.success("Form submitted successfully!")
     console.log(data);
   };
 
@@ -54,7 +57,7 @@ const App = () => {
             const v = e.target.value
             setVehicleNumber(v.toUpperCase())
           }}
-          onBlur={()=>{
+          onBlur={() => {
             const valid = /^[A-Z]{2}\s?[0-9]{1,2}\s?[A-Z]{1,3}\s?[0-9]{4}$/.test(vehicleNumber)
             setVehicleNumberError(valid ? "" : "Invalid Vehicle Number Format")
           }}
@@ -62,7 +65,7 @@ const App = () => {
           required
         />
         {
-          vehicleNumberError && 
+          vehicleNumberError &&
           <p className="text-red-600 text-sm">Invalid Vehicle Number</p>
         }
 
@@ -80,7 +83,7 @@ const App = () => {
           type="text"
           value={fOwnerName}
           className="p-3 border border-gray-400 rounded-lg"
-          onChange={(e) => {setFOwnerName(e.target.value)}}
+          onChange={(e) => { setFOwnerName(e.target.value) }}
           placeholder="Enter Owner Name"
           required
         />
@@ -95,7 +98,7 @@ const App = () => {
             setFOwnerNumer(v);
           }}
 
-          onBlur={()=>{
+          onBlur={() => {
             const valid = /^\+?[1-9]\d{0,3}[-.\s]?\d{1,14}$/.test(fOwnerNumer)
             setOwnerNumberError(valid ? "" : "Invalid Number")
           }}
@@ -104,7 +107,7 @@ const App = () => {
         />
 
         {
-          ownerNumberError && 
+          ownerNumberError &&
           <p className="text-red-600 text-sm">Invalid Owner Number</p>
         }
 
@@ -117,7 +120,7 @@ const App = () => {
             const v = e.target.value;
             setFEmail(v);
           }}
-          onBlur={()=>{
+          onBlur={() => {
             const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fEmail);
             setEmailError(valid ? "" : "Invalid email format");
           }}
@@ -236,6 +239,20 @@ const App = () => {
           Submit
         </button>
       </form>
+
+      {/* toast setup */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
     </div>
   );
 };
